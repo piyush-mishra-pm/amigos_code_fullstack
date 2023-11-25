@@ -3,6 +3,7 @@ package com.piyushmishra;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class Main {
     private static List<Customer> customersDb =  new ArrayList<>();
     static {
         customersDb.add(new Customer(1,"Piyush","p@g.com",21));
-        customersDb.add(new Customer(1,"Skyrim","s@k.rim",12));
+        customersDb.add(new Customer(2,"Skyrim","s@k.rim",12));
     }
 
     @GetMapping("/api/v1/customers")
@@ -28,6 +29,13 @@ public class Main {
         return customersDb;
     }
 
+    @GetMapping("/api/v1/customers/{customerId}")
+    private Customer getCustomerById(@PathVariable("customerId") Integer customerId){
+        return customersDb.stream()
+                .filter(c -> c.id.equals(customerId))
+                .findFirst()
+                .orElseThrow(()->new IllegalArgumentException("customer "+customerId+" doesnt exist!"));
+    }
 
     static class Customer {
         private Integer id;

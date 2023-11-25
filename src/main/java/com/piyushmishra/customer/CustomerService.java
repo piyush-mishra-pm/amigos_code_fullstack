@@ -1,5 +1,6 @@
 package com.piyushmishra.customer;
 
+import com.piyushmishra.exception.ResourceNotFound;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class CustomerService {
 
     public Customer getCustomerById(Integer id){
         return customerDao.selectCustomerById(id)
-                .orElseThrow(()->new IllegalArgumentException("customer id="+id+" doesnt exist!"));
+                .orElseThrow(()->new ResourceNotFound("customer id="+id+" doesnt exist!"));
     }
 
 }

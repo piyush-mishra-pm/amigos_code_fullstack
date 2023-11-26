@@ -27,6 +27,7 @@ public class CustomerListDataAccessService implements CustomerDao{
 
     @Override
     public void insertCustomer(Customer customer) {
+        customer.setId(customersDb.size() + 1);
         customersDb.add(customer);
     }
 
@@ -43,5 +44,21 @@ public class CustomerListDataAccessService implements CustomerDao{
     @Override
     public void removeCustomer(Integer customerId) {
         customersDb.removeIf(customer -> customer.getId().equals(customerId));
+    }
+
+    @Override
+    public void updateCustomer(Customer existingCustomer) {
+        int existingIndex = -1;
+        for (int i = 0; i < customersDb.size(); i++) {
+            Customer c = customersDb.get(i);
+            if (c.getId().equals(existingCustomer.getId())) {
+                existingIndex = i;
+                break;
+            }
+        }
+        if (existingIndex == -1) {
+            throw new RuntimeException("Didnt find customer with such index");
+        }
+        customersDb.set(existingIndex, existingCustomer);
     }
 }

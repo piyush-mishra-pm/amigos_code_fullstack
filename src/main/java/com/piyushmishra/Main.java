@@ -1,5 +1,6 @@
 package com.piyushmishra;
 
+import com.github.javafaker.Faker;
 import com.piyushmishra.customer.Customer;
 import com.piyushmishra.customer.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -7,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.List;
+import java.util.Random;
 
 @SpringBootApplication
 public class Main {
@@ -17,8 +18,16 @@ public class Main {
 
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository){
-        return args -> customerRepository.saveAll(
-                List.of(new Customer("Piyush","p@g.com",21),
-                        new Customer("Skyrim","s@k.rim",12)));
+        return args -> {
+            Faker faker = new Faker();
+            Random random = new Random();
+            customerRepository.save(
+                    new Customer(
+                        faker.name().fullName(),
+                        faker.internet().emailAddress(),
+                            random.nextInt(12,65)
+                    )
+            );
+        };
     }
 }

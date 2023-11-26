@@ -1,17 +1,25 @@
 package com.piyushmishra.customer;
 
+import com.github.javafaker.Faker;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Repository("list")
 public class CustomerListDataAccessService implements CustomerDao{
     private static final List<Customer> customersDb =  new ArrayList<>();
     static {
-        customersDb.add(new Customer(1,"Piyush","p@g.com",21));
-        customersDb.add(new Customer(2,"Skyrim","s@k.rim",12));
+        Faker faker = new Faker();
+        Random random = new Random();
+        customersDb.add(new Customer(
+                1,
+                faker.name().fullName(),
+                faker.internet().emailAddress(),
+                random.nextInt(12,65)
+        ));
     }
     @Override
     public List<Customer> selectAllCustomers() {

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public class CustomerInMemoryDbImpl implements CustomerDao{
+@Repository("list")
+public class CustomerListDataAccessService implements CustomerDao{
     private static final List<Customer> customersDb =  new ArrayList<>();
     static {
         customersDb.add(new Customer(1,"Piyush","p@g.com",21));

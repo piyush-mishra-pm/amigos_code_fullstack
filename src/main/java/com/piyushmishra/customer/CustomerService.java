@@ -1,6 +1,7 @@
 package com.piyushmishra.customer;
 
-import com.piyushmishra.exception.ResourceNotFound;
+import com.piyushmishra.exception.DuplicateResourceException;
+import com.piyushmishra.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,23 @@ public class CustomerService {
 
     public Customer getCustomerById(Integer id){
         return customerDao.selectCustomerById(id)
-                .orElseThrow(()->new ResourceNotFound("customer id="+id+" doesnt exist!"));
+                .orElseThrow(()->new ResourceNotFoundException("customer id="+id+" doesnt exist!"));
+    }
+
+    public void addCustomer(CustomerRegistrationRequest customerRegistrationRequest) throws DuplicateResourceException {
+        // Check if Email already exists:
+        String email = customerRegistrationRequest.email();
+        if (customerDao.existsCustomerWithEmail(email)) {
+            throw new DuplicateResourceException("Email already exists.");
+        }
+
+        // Add user (if email doesn't exist already)
+        Customer newCustomer = new Customer(
+                customerRegistrationRequest.name(),
+                customerRegistrationRequest.email(),
+                customerRegistrationRequest.age()
+        );
+        customerDao.insertCustomer(newCustomer);
     }
 
 }

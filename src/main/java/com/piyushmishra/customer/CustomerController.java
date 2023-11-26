@@ -28,4 +28,9 @@ public class CustomerController {
     private void registerCustomer(@RequestBody CustomerRegistrationRequest request){
         customerService.addCustomer(request);
     }
+
+    @DeleteMapping("/{customerId}")
+    private void deleteCustomer(@PathVariable("customerId") Integer customerId){
+        customerService.removeCustomer(customerId);
+    }
 }

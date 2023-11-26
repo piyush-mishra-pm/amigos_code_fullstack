@@ -40,4 +40,10 @@ public class CustomerService {
         customerDao.insertCustomer(newCustomer);
     }
 
+    public void removeCustomer(Integer customerId) {
+        if(!customerDao.existsCustomerById(customerId)){
+            throw new ResourceNotFoundException("Customer with id=%s doesnt exist.".formatted(customerId));
+        }
+        customerDao.removeCustomer(customerId);
+    }
 }

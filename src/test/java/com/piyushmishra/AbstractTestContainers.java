@@ -65,7 +65,7 @@ public abstract class AbstractTestContainers {
         return new JdbcTemplate(getDataSource());
     }
 
-    protected static Customer getFakerCustomer() {
+    public static Customer getFakerCustomer() {
         return new Customer(
                 FAKER.name().fullName(),
                 FAKER.number().numberBetween(0, 1000) + FAKER.internet().emailAddress(),

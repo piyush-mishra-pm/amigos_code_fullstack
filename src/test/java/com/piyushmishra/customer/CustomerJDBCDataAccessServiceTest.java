@@ -103,10 +103,10 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
     @Test
     void notExistsCustomerWithEmailIfNotInserted() {
         // given
-        Customer customer = getFakerCustomer();
+        String nonExistingEmail = FAKER.number().numberBetween(0, 1000) + FAKER.internet().emailAddress();
 
         // when
-        boolean present = underTest.existsCustomerWithEmail(customer.getEmail());
+        boolean present = underTest.existsCustomerWithEmail(nonExistingEmail);
 
         // then
         assertThat(present).isFalse();

@@ -1,6 +1,7 @@
 package com.piyushmishra;
 
 import com.github.javafaker.Faker;
+import com.piyushmishra.customer.Customer;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -62,5 +63,13 @@ public abstract class AbstractTestContainers {
 
     protected static JdbcTemplate getJdbcTemplate(){
         return new JdbcTemplate(getDataSource());
+    }
+
+    protected static Customer getFakerCustomer() {
+        return new Customer(
+                FAKER.name().fullName(),
+                FAKER.number().numberBetween(0, 1000) + FAKER.internet().emailAddress(),
+                FAKER.number().numberBetween(12, 90)
+        );
     }
 }

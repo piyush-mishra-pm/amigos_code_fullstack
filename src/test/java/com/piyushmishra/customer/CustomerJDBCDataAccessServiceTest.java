@@ -286,14 +286,6 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         });
     }
 
-    private Customer getFakerCustomer() {
-        return new Customer(
-                FAKER.name().fullName(),
-                FAKER.number().numberBetween(0, 1000) + FAKER.internet().emailAddress(),
-                FAKER.number().numberBetween(12, 90)
-        );
-    }
-
     private int getCustomerId(Customer customer) {
         return underTest
                 .selectAllCustomers()
